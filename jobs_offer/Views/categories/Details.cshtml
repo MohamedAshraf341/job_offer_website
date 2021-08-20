@@ -1,0 +1,35 @@
+﻿@model jobs_offer.Models.category
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h2>النوع</h2>
+
+<div>
+    <h4>تفاصيل الوظيفه</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.categoryname)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.categoryname)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.categorydescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.categorydescription)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("تعديل", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("عوده الي القائمه", "Index")
+</p>

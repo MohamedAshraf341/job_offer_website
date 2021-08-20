@@ -1,0 +1,119 @@
+﻿@model jobs_offer.Models.job
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<h2>Edit</h2>
+<script src="~/script/ckeditor/ckeditor.js"></script>
+
+@using (Html.BeginForm("Edit", "jobs", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <div class="alert alert-danger" id="error-div" style="display:none">
+            <span id="view-error">
+
+            </span>
+
+        </div>
+        <h4>job</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.id)
+        @Html.HiddenFor(model => model.jobimage)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.jobtitle, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.jobtitle, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.jobtitle, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.jobcontent, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.jobcontent, new { htmlAttributes = new { @class = "form-control" , @id = "jobcontent" } })
+                @Html.ValidationMessageFor(model => model.jobcontent, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.jobimage, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="file" name="upload" id="myimage"/>
+                @Html.ValidationMessageFor(model => model.jobimage, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.categoryid, "categoryid", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("categoryid", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.categoryid, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="حفظ" class="btn btn-default" id="save" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+<script src="~/script/jquery.js"></script>
+@section script{
+ <script>
+    $(function () {
+        $("#save").click(function () {
+            //if ($("#jobimage").val() == "") {
+            //    $("#error-div").fadeIn();
+            //    $("#view-error").append("من فضلك ادخل صوره للوظيفه");
+            //    return false;
+            //}
+
+            //check the input empty
+            //if ($("#jobimage").val() == "") {
+            //    $("#error-div").fadeIn();
+            //    $("#view-error").append("من فضلك ادخل صوره للوظيفه");
+            //    return false;
+            //}
+
+            if ($("#myimage").val() != "")
+            {
+                //check if the image extension
+                var filename = document.getElementById("myimage").value;
+                //tiger png ==>.png
+                var extensionsimage = filename.substr(filename.lastIndexOf('.') + 1);
+                var validextension = ['jpg', 'png', 'gif', 'bmb'];
+                if ($.inArray(extensionsimage, validextension) == -1) {
+                    $("#error-div").fadeIn();
+                    $("#view-err").append("من فضلك قم باختيار صوره بامتداد صحيح");
+                    return false;
+                }
+
+                //check if the image size is valid(2mb)
+                var myfilesize = document.getElementById("myimage").files[0].size / 1024 / 1024;
+                if (myfilesize > 2) {
+                    $("#error-div").fadeIn();
+                    $("#view-err").append("من فضلك قم باختيار صوره بحجم اصغر من اتنين ميجا");
+                    return false;
+                }
+            }
+            
+
+        });
+    });
+</script>   
+    }
+<script>
+    CKEDITOR.replace("jobcontent");
+</script>
